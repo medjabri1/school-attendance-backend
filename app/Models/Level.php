@@ -22,4 +22,16 @@ class Level extends Model
     {
         return $this->hasMany(Subject::class);
     }
+
+    // LEVEL - STUDENT - ONE TO MANY
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
+
+    // LEVEL - SESSION - ONE TO MANY
+    public function sessions()
+    {
+        return $this->hasMany(Session::class);
+    }
 }

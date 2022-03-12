@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\FiliereController;
 use App\Http\Controllers\LevelController;
+use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SessionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -80,3 +83,66 @@ Route::put('/subjects/{subject}', [SubjectController::class, 'update']);
 
 // DELETE SUBJECT BY ID
 Route::delete('/subjects/{subject}', [SubjectController::class, 'destroy']);
+
+// -- -- -- -- // -- -- -- -- // -- -- -- -- // -- -- -- -- 
+// -- -- -- -- STUDENT REQUESTS ENDPOINTS
+
+// GET ALL STUDENT
+Route::get('/students', [StudentController::class, 'index']);
+
+// GET ONE STUDENT BY ID
+Route::get('/students/{student}', [StudentController::class, 'getStudentById']);
+
+// GET ALL STUDENTS OF LEVEL
+Route::get('/students/level/{level_id}', [StudentController::class, 'getLevelStudents']);
+
+// POST NEW STUDENT
+Route::post('/students', [StudentController::class, 'store']);
+
+// UPDATE STUDENT BY ID
+Route::put('/students/{student}', [StudentController::class, 'update']);
+
+// DELETE STUDENT BY ID
+Route::delete('/students/{student}', [StudentController::class, 'destroy']);
+
+// -- -- -- -- // -- -- -- -- // -- -- -- -- // -- -- -- -- 
+// -- -- -- -- SESSION REQUESTS ENDPOINTS
+
+// GET ALL SESSIONS
+Route::get('/sessions', [SessionController::class, 'index']);
+
+// GET ONE SESSION BY ID
+Route::get('/sessions/{session}', [SessionController::class, 'getSessionById']);
+
+// GET ALL SESSIONS OF LEVEL
+Route::get('/sessions/level/{level_id}', [SessionController::class, 'getLevelSessions']);
+
+// GET ALL SESSIONS OF SUBJECT
+Route::get('/sessions/subject/{subject_id}', [SessionController::class, 'getSubjectSessions']);
+
+// POST NEW SESSION
+Route::post('/sessions', [SessionController::class, 'store']);
+
+// UPDATE SESSION BY ID
+Route::put('/sessions/{session}', [SessionController::class, 'update']);
+
+// DELETE SESSION BY ID
+Route::delete('/sessions/{session}', [SessionController::class, 'destroy']);
+
+// -- -- -- -- // -- -- -- -- // -- -- -- -- // -- -- -- -- 
+// -- -- -- -- PROFESSORS REQUESTS ENDPOINTS
+
+// GET ALL PORFESSORS
+Route::get('/professors', [ProfessorController::class, 'index']);
+
+// GET ONE PROFESSOR BY ID
+Route::get('/professors/{professor}', [ProfessorController::class, 'getProfessorById']);
+
+// POST NEW PROFESSOR
+Route::post('/professors', [ProfessorController::class, 'store']);
+
+// UPDATE PROFESSOR BY ID
+Route::put('/professors/{professor}', [ProfessorController::class, 'update']);
+
+// DELETE PROFESSOR BY ID
+Route::delete('/professors/{professor}', [ProfessorController::class, 'destroy']);

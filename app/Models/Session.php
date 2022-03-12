@@ -5,21 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Subject extends Model
+class Session extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'level_id'];
+    protected $fillable = ['level_id', 'subject_id'];
 
-    // LEVEL - SUBJECT - ONE TO MANY
+    // LEVEL - SESSION - ONE TO MANY
     public function level()
     {
         return $this->belongsTo(Level::class);
     }
 
     // SUBJECT - SESSION - ONE TO MANY
-    public function sessions()
+    public function subject()
     {
-        return $this->hasMany(Session::class);
+        return $this->belongsTo(Subject::class);
     }
 }
