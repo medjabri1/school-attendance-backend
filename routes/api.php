@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FiliereController;
 use App\Http\Controllers\LevelController;
+use App\Http\Controllers\OverviewController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\StudentController;
@@ -146,3 +147,12 @@ Route::put('/professors/{professor}', [ProfessorController::class, 'update']);
 
 // DELETE PROFESSOR BY ID
 Route::delete('/professors/{professor}', [ProfessorController::class, 'destroy']);
+
+// -- -- -- -- // -- -- -- -- // -- -- -- -- // -- -- -- -- 
+// -- -- -- -- OVERVIEW REQUESTS ENDPOINTS
+
+// GET GLOBAL OVERVIEW
+Route::get('/overview', [OverviewController::class, 'overview']);
+Route::get('/overview/level/{level}', [OverviewController::class, 'levelOverview']);
+Route::get('/overview/subject/{subject}', [OverviewController::class, 'subjectOverview']);
+Route::get('/overview/sessions', [OverviewController::class, 'sessionsOverview']);

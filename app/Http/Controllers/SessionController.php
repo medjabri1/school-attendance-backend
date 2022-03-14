@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Filiere;
+use App\Models\Level;
 use App\Models\Session;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class SessionController extends Controller
@@ -15,7 +18,27 @@ class SessionController extends Controller
     public function index()
     {
         //
-        return Session::orderBy('created_at', 'ASC')->get()->all();
+        // $data = Session::orderBy('created_at', 'ASC')->paginate(3);
+
+        $sessions = Session::orderBy('created_at', 'DESC')->get()->all();
+
+        $result = [];
+
+        foreach ($sessions as $session) {
+
+            $current_subject = Subject::find($session->subject_id);
+            $current_filiere = Filiere::find(Level::find($session->level_id)->filiere_id);
+
+            $current_row = [
+                'session_data' => $session,
+                'subject_data' => $current_subject,
+                'filiere_data' => $current_filiere,
+            ];
+
+            array_push($result, $current_row);
+        }
+
+        return $result;
     }
 
     /**
@@ -77,11 +100,13 @@ class SessionController extends Controller
         request()->validate([
             'level_id' => 'required',
             'subject_id' => 'required',
+            'salle' => 'required'
         ]);
 
         return Session::create([
             'level_id' => request('level_id'),
-            'subject_id' => request('subject_id')
+            'subject_id' => request('subject_id'),
+            'salle' => request('salle')
         ]);
     }
 
@@ -120,11 +145,13 @@ class SessionController extends Controller
         request()->validate([
             'level_id' => 'required',
             'subject_id' => 'required',
+            'salle' => 'required',
         ]);
 
         $success = $session->update([
             'level_id' => request('level_id'),
-            'subject_id' => request('level_id')
+            'subject_id' => request('subject_id'),
+            'salle' => request('salle')
         ]);
 
         return [

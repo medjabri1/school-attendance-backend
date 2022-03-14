@@ -9,7 +9,7 @@ class Session extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['level_id', 'subject_id'];
+    protected $fillable = ['salle', 'level_id', 'subject_id'];
 
     // LEVEL - SESSION - ONE TO MANY
     public function level()
