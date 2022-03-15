@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\FiliereController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\OverviewController;
@@ -114,6 +115,7 @@ Route::get('/sessions', [SessionController::class, 'index']);
 
 // GET ONE SESSION BY ID
 Route::get('/sessions/{session}', [SessionController::class, 'getSessionById']);
+Route::get('/sessions/{session}/result', [SessionController::class, 'getSessionResult']);
 
 // GET ALL SESSIONS OF LEVEL
 Route::get('/sessions/level/{level_id}', [SessionController::class, 'getLevelSessions']);
@@ -156,3 +158,16 @@ Route::get('/overview', [OverviewController::class, 'overview']);
 Route::get('/overview/level/{level}', [OverviewController::class, 'levelOverview']);
 Route::get('/overview/subject/{subject}', [OverviewController::class, 'subjectOverview']);
 Route::get('/overview/sessions', [OverviewController::class, 'sessionsOverview']);
+
+// -- -- -- -- // -- -- -- -- // -- -- -- -- // -- -- -- -- 
+// -- -- -- -- ATTENDANCE REQUESTS ENDPOINTS
+
+Route::get('/attendances', [AttendanceController::class, 'index']);
+
+Route::get('/attendances/{attendance}', [AttendanceController::class, 'getAttendanceById']);
+Route::get('/attendances/session/{session_id}', [AttendanceController::class, 'getSessionAttendances']);
+Route::get('/attendances/student/{student_id}', [AttendanceController::class, 'getStudentAttendances']);
+
+Route::post('/attendances', [AttendanceController::class, 'store']);
+Route::put('/attendances/{attendance}', [AttendanceController::class, 'update']);
+Route::delete('/Attendances/{attendance}', [AttendanceController::class, 'destroy']);

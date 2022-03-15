@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
 use App\Models\Filiere;
 use App\Models\Level;
 use App\Models\Session;
+use App\Models\Student;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 
@@ -76,6 +78,63 @@ class SessionController extends Controller
         //
         $subject_id = $request->subject_id;
         return Session::orderBy('created_at', 'ASC')->where('subject_id', $subject_id)->get()->all();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getSessionResult(Session $session)
+    {
+        //
+
+        $level_id = $session->level_id;
+        $filiere = Filiere::find(Level::find($level_id)->filiere_id);
+        $subject = Subject::find($session->subject_id);
+
+        $total_students = Student::orderBy('last_name', 'ASC')->orderBy('first_name')->where('level_id', $level_id)->get()->all();
+
+        $attended_students = [];
+        $absent_students = [];
+
+        $total_attendances = Attendance::where('session_id', $session->id)->get()->all();
+
+        for ($i = 0; $i < count($total_students); $i++) {
+
+            $current_student = $total_students[$i];
+            $attended = false;
+
+            $current_attendance = '';
+
+            for ($j = 0; $j < count($total_attendances); $j++) {
+
+                $current_attendance = $total_attendances[$j];
+
+                if ($current_student->id == $current_attendance->student_id) {
+                    $attended = true;
+                }
+            }
+
+            if ($attended == true) {
+                array_push($attended_students, [
+                    'studentData' => $current_student,
+                    'attendanceData' => $current_attendance
+                ]);
+            } else {
+                array_push($absent_students, $current_student);
+            }
+        }
+
+        return [
+            'attended_students' => $attended_students,
+            'absent_students' => $absent_students,
+            'total_attended' => count($attended_students),
+            'total_absent' => count($absent_students),
+            'filiere' => $filiere,
+            'subject' => $subject,
+            'session' => $session
+        ];
     }
 
     /**

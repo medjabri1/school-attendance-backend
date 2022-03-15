@@ -22,4 +22,10 @@ class Session extends Model
     {
         return $this->belongsTo(Subject::class);
     }
+
+    // SESSION - ATTENDANCE - ONE TO MANY
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
 }

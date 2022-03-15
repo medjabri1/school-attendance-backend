@@ -16,4 +16,10 @@ class Student extends Model
     {
         return $this->belongsTo(Level::class);
     }
+
+    // STUDENT - ATTENDANCE - ONE TO MANY
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
 }
