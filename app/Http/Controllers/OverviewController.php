@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classroom;
 use App\Models\Filiere;
 use App\Models\Level;
 use App\Models\Student;
@@ -51,9 +52,24 @@ class OverviewController extends Controller
      */
     public function subjectOverview(Subject $subject)
     {
+
+        $sessions_initial = Session::where('subject_id', $subject->id)->get()->all();
+        $sessions_final = [];
+
+        foreach ($sessions_initial as $session) {
+            $current_classroom = Classroom::find($session->classroom_id);
+            array_push(
+                $sessions_final,
+                [
+                    'session' => $session,
+                    'classroom' => $current_classroom
+                ]
+            );
+        }
+
         return [
             'subject' => $subject,
-            'sessions' => Session::where('subject_id', $subject->id)->get()->all(),
+            'sessions' => $sessions_final,
             'professor' => $subject->professor_id != null ? Professor::find($subject->professor_id) : null
         ];
     }
