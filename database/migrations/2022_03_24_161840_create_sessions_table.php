@@ -20,9 +20,11 @@ class CreateSessionsTable extends Migration
 
             $table->unsignedBigInteger('level_id');
             $table->unsignedBigInteger('subject_id');
+            $table->unsignedBigInteger('classroom_id');
 
             $table->foreign('level_id')->references('id')->on('levels');
             $table->foreign('subject_id')->references('id')->on('subjects');
+            $table->foreign('classroom_id')->references('id')->on('classrooms');
 
             $table->timestamps();
         });

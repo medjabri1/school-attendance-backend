@@ -17,7 +17,7 @@ class ProfessorController extends Controller
     public function index()
     {
         //
-        return Professor::orderBy('created_at', 'ASC')->get()->all();
+        return Professor::orderBy('created_at', 'DESC')->get()->all();
     }
 
     /**

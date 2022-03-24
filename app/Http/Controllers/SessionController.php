@@ -8,6 +8,7 @@ use App\Models\Level;
 use App\Models\Session;
 use App\Models\Student;
 use App\Models\Subject;
+use App\Models\Classroom;
 use Illuminate\Http\Request;
 
 class SessionController extends Controller
@@ -65,7 +66,20 @@ class SessionController extends Controller
     {
         //
         $level_id = $request->level_id;
-        return Session::orderBy('created_at', 'ASC')->where('level_id', $level_id)->get()->all();
+        $sessions_data = Session::orderBy('created_at', 'DESC')->where('level_id', $level_id)->get()->all();
+
+        $sessions = [];
+
+        foreach ($sessions_data as $session) {
+            $current_session = [
+                'session' => $session,
+                'classroom' => Classroom::find($session->classroom_id)
+            ];
+
+            array_push($sessions, $current_session);
+        }
+
+        return $sessions;
     }
 
     /**
@@ -92,6 +106,7 @@ class SessionController extends Controller
         $level_id = $session->level_id;
         $filiere = Filiere::find(Level::find($level_id)->filiere_id);
         $subject = Subject::find($session->subject_id);
+        $classroom = Classroom::find($session->classroom_id);
 
         $total_students = Student::orderBy('last_name', 'ASC')->orderBy('first_name')->where('level_id', $level_id)->get()->all();
 
@@ -133,7 +148,8 @@ class SessionController extends Controller
             'total_absent' => count($absent_students),
             'filiere' => $filiere,
             'subject' => $subject,
-            'session' => $session
+            'session' => $session,
+            'classroom' => $classroom
         ];
     }
 

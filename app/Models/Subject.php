@@ -9,12 +9,18 @@ class Subject extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'level_id'];
+    protected $fillable = ['name', 'level_id', 'professor_id'];
 
     // LEVEL - SUBJECT - ONE TO MANY
     public function level()
     {
         return $this->belongsTo(Level::class);
+    }
+
+    // PROFESSOR - SUBJECT - ONE TO MANY
+    public function professor()
+    {
+        return $this->belongsTo(Professor::class);
     }
 
     // SUBJECT - SESSION - ONE TO MANY

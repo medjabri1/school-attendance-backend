@@ -10,4 +10,10 @@ class Professor extends Model
     use HasFactory;
 
     protected $fillable = ['first_name', 'last_name', 'email', 'password'];
+
+    // PROFESSOR - SUBJECT - ONE TO MANY
+    public function subjects()
+    {
+        return $this->hasMany(Subject::class);
+    }
 }

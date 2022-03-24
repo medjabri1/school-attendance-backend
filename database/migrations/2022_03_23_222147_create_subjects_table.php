@@ -18,6 +18,9 @@ class CreateSubjectsTable extends Migration
             $table->string('name');
             $table->timestamps();
 
+            $table->unsignedBigInteger('professor_id')->nullable();
+            $table->foreign('professor_id')->references('id')->on('professors');
+
             $table->unsignedBigInteger('level_id');
             $table->foreign('level_id')->references('id')->on('levels');
         });

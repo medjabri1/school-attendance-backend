@@ -9,7 +9,7 @@ class Session extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['salle', 'level_id', 'subject_id'];
+    protected $fillable = ['classroom_id', 'level_id', 'subject_id'];
 
     // LEVEL - SESSION - ONE TO MANY
     public function level()
@@ -21,6 +21,12 @@ class Session extends Model
     public function subject()
     {
         return $this->belongsTo(Subject::class);
+    }
+
+    // CLASSROOM - SESSION - ONE TO MANY
+    public function classroom()
+    {
+        return $this->belongsTo(Classroom::class);
     }
 
     // SESSION - ATTENDANCE - ONE TO MANY

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Professor;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,19 @@ class SubjectController extends Controller
     public function index()
     {
         //
-        return Subject::orderBy('created_at', 'ASC')->get()->all();
+        $subjects_initial = Subject::orderBy('created_at', 'ASC')->get()->all();
+        $subjects_final = [];
+
+        foreach ($subjects_initial as $subject) {
+            $current_subject = [
+                'subject' => $subject,
+                'professor' => $subject->professor_id != null ? Professor::find($subject->professor_id) : null
+            ];
+
+            array_push($subjects_final, $current_subject);
+        }
+
+        return $subjects_final;
     }
 
     /**
@@ -69,7 +82,8 @@ class SubjectController extends Controller
 
         return Subject::create([
             'name' => request('name'),
-            'level_id' => request('level_id')
+            'level_id' => request('level_id'),
+            'professor_id' => request('professor_id')
         ]);
     }
 
@@ -112,7 +126,8 @@ class SubjectController extends Controller
 
         $success = $subject->update([
             'name' => request('name'),
-            'level_id' => request('level_id')
+            'level_id' => request('level_id'),
+            'professor_id' => request('professor_id')
         ]);
 
         return [

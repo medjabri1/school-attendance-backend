@@ -53,7 +53,8 @@ class OverviewController extends Controller
     {
         return [
             'subject' => $subject,
-            'sessions' => Session::where('subject_id', $subject->id)->get()->all()
+            'sessions' => Session::where('subject_id', $subject->id)->get()->all(),
+            'professor' => $subject->professor_id != null ? Professor::find($subject->professor_id) : null
         ];
     }
 
